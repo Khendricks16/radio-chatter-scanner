@@ -11,6 +11,8 @@
 #include <stdlib.h>
 
 #include "../include/db.h"
+#include "../include/radio.h"
+//#include "../include/input.h"
 
 
 
@@ -27,8 +29,17 @@ int main(int argc, char *argv[])
     sqlite3 *rcsDB = NULL;
     rcs_open_db(rcsDB);
 
+    // Open up connection to radio device
+    rtlsdr_dev_t *radioDev = NULL;
+    radioDeviceSetup(&radioDev);
 
+    // struct programInput *input = defaultProgramInput;
 
+    // Just try and scan for now
+    radioScanFreq(radioDev, 1.015e8);
+
+    // Make sure the radio device is closed
+    rtlsdr_close(radioDev);
 
     // Make sure that the program db is closed
     rcs_close_db(rcsDB);
