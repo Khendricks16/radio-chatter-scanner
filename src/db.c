@@ -28,7 +28,7 @@
 static void load_db_schema(sqlite3 *rcsDB)
 {
     // Make sure that the new db has the correct expected schema
-    FILE *fp = fopen("db_schema.sql", "r");
+    FILE *fp = fopen("./assets/db_schema.sql", "r");
 
     // Was the sql file for the db schema not able to be opened?
     if (fp == NULL){
