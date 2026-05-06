@@ -54,7 +54,9 @@ dkms.conf
 # debug information files
 *.dwo
 
-
 # Sqlite DB files
 *.db
 
+# Personal Files
+notes/
+tests/local_captured_audio
