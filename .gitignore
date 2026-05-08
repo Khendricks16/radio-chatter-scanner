@@ -54,9 +54,16 @@ dkms.conf
 # debug information files
 *.dwo
 
+# =============================
+#  End of .gitignore template
+# =============================
+
 # Sqlite DB files
 *.db
 
 # Personal Files
 notes/
-tests/local_captured_audio
+tests/local_captured_audio/
+
+# Build contents
+build/
