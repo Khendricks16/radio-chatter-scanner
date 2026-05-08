@@ -1,19 +1,17 @@
 /**
- * @file main.c
+ * @file main.cc
  * @author Keith Hendricks
  *
  * The main starting point for the program.
  */
-
 #include <sqlite3.h>
 #include <rtl-sdr.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/db.h"
-#include "../include/radio.h"
-#include "../include/input.h"
-
+#include "db.h"
+#include "radio.h"
+#include "input.h"
 
 
 /**
@@ -24,7 +22,6 @@ static void report_found_chatter(uint32_t freq)
 */
 
 
-
 /**
  * The main entry point to the program.
  *
@@ -32,7 +29,7 @@ static void report_found_chatter(uint32_t freq)
  * @param argv array of strings, each one being one of the command line given arguments
  * @return the exit status for the program
  */
-int main(int argc, char const *argv[])
+int main(int argc, char const **argv)
 {
     // Open up db connection instance for program wide use
     sqlite3 *rcs_db = NULL;
@@ -43,10 +40,10 @@ int main(int argc, char const *argv[])
     
     // Based on which command should be ran, run it
     switch(input->subcommand){
-        case help:
+        case program_input_struct::help:
             display_help();
             break;
-        case scan:
+        case program_input_struct::scan:
             radio_device_check();
 
             if (input->freq_start == input->freq_end){
@@ -67,4 +64,5 @@ int main(int argc, char const *argv[])
     // Program is ready to successfully terminate
     return EXIT_SUCCESS;
 }
+
 

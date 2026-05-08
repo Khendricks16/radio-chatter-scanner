@@ -9,6 +9,9 @@
 #ifndef RCS_RADIO_H
 #define RCS_RADIO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /**
@@ -34,6 +37,9 @@ void radio_scan_single_freq(uint32_t freq, float timeout, int demod_mode);
  */
 //void scan_range_linear(uint32_t start, uint32_t end, int hold_time, int cycles); 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 

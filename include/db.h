@@ -2,7 +2,7 @@
  * @file db.c
  * @author Keith Hendricks
  *
- * Header file for db component that contains all operations realting to interacting with the program db.
+ * Header file for db component that contains all operations relating to interacting with the program db.
  */
 
 #ifndef RCS_DB_H
@@ -10,6 +10,10 @@
 
 #include <sqlite3.h>
 #include <stdbool.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 /**
@@ -37,9 +41,13 @@ void rcs_close_db(sqlite3 **rcs_db);
  * @param data array of data representing the PCM data of captured audio
  * @param data_len how large is the given data array
  * @param freq on what frequency was this data captured on
- * @return a boolean value on if the sql transaction successfull?
+ * @return a boolean value on if the sql transaction successful?
  */
 bool store_radio_data(sqlite3 **rcs_db, int16_t *data, int data_len, uint32_t freq);
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

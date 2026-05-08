@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "../include/db.h"
+#include "db.h"
 
 
 /** Exit code for database related errors, which put the program in a state where it cannot continue */
@@ -32,7 +32,7 @@ static void load_db_schema(sqlite3 *rcs_db)
 
     // Was the sql file for the db schema not able to be opened?
     if (fp == NULL){
-        fprintf(stderr, "Error: db schema for new db could not be opened");
+        fprintf(stderr, "Error: db schema for new db could not be opened\n");
         exit(FATAL_DB_ERROR);
     }
 
@@ -71,7 +71,7 @@ static void load_db_schema(sqlite3 *rcs_db)
         return;
     }
 
-    fprintf(stderr, "Error: DB Schema statement failed to be called");
+    fprintf(stderr, "Error: DB Schema statement failed to be called\n");
     exit(FATAL_DB_ERROR);
 }
 
@@ -93,7 +93,7 @@ void rcs_open_db(sqlite3 **rcs_db)
     if (db_open_status != SQLITE_OK){
         // Some other error occured that is fatal as to why the db could not be opened
         fprintf(stderr, sqlite3_errmsg(*rcs_db));
-        fprintf(stderr, "Error: sqlite db could not be opened");
+        fprintf(stderr, "Error: sqlite db could not be opened\n");
         exit(FATAL_DB_ERROR);
     }
 

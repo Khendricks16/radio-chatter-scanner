@@ -13,7 +13,7 @@
 
 
 #include "getopt/getopt.h"
-#include "../include/input.h"
+#include "input.h"
 
 
 /** argc should at least be equal to this in order for it to be a valid 'scan' subcommand */

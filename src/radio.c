@@ -15,8 +15,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
-#include "../include/input.h"
-#include "../include/radio.h"
+#include "input.h"
+#include "radio.h"
 
 /** The amount of space that should be provided for USB device strings */
 #define DEV_INFO_STR_LEN 256

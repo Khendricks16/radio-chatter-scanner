@@ -17,6 +17,12 @@
 /** How many total subcommands does this program support? */
 #define SUPPORTED_SUBCOMMANDS_AMT 2
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /** struct which will hold possible input values given to the program */
 struct program_input_struct {
     enum subcommands {help, scan} subcommand;
@@ -52,6 +58,9 @@ program_input_s * parse_program_input(int argc, char const *argv[]);
  */
 void display_help();
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 
