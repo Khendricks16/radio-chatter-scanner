@@ -67,3 +67,6 @@ tests/local_captured_audio/
 
 # Build contents
 build/
+
+# VSCode related items
+.vscode
