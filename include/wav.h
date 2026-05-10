@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #ifndef FRONTEND_WAV_H_
 #define FRONTEND_WAV_H_
 
@@ -23,8 +22,6 @@
 #include <string.h>
 
 #include <string>
-
-// #include "utils/log.h"
 
 namespace wav {
 

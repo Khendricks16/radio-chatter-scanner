@@ -193,8 +193,8 @@ static bool check_scan_command(int argc, char const *argv[], program_input_s *in
     curr_arg_pos++;
 
     // should only be at biggest 'wbfm'
-    char *demod_mode = (char *) malloc(sizeof(char) * LARGEST_DEMOD_MODE_LEN + 1);
-    strncpy(demod_mode, argv[curr_arg_pos], LARGEST_DEMOD_MODE_LEN);
+    char *demod_mode = (char *) malloc(sizeof(char) * (LARGEST_DEMOD_MODE_LEN + 1));
+    strncpy(demod_mode, argv[curr_arg_pos], LARGEST_DEMOD_MODE_LEN + 1);
     for (int i = 0; demod_mode[i]; i++){
         demod_mode[i] = tolower(demod_mode[i]);
     }
