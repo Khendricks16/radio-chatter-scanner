@@ -1,61 +1,96 @@
+/**
+ * @file vad.cc
+ * @author Keith Hendricks
+ * 
+ * Implementation file that contains the logic for determining if speech is present within our captured radio data.
+ */
 #include <iostream>
-#include "silero.h"
-#include "wav.h"
+#include "silero.hpp"
 
-// int main(int argc, char* argv[]) {
+#include <limits.h>
 
-// 	if(argc != 4){
-// 		std::cerr<<"Usage : "<<argv[0]<<" <wav.path> <SampleRate> <Threshold>"<<std::endl;
-// 		std::cerr<<"Usage : "<<argv[0]<<" sample.wav 16000 0.5"<<std::endl;
-// 		return 1;
-// 	}
+/**
+ * Class that contains the logic for determining if speech is present within our captured radio data.
+ * @author Keith Hendricks
+ */
+class RcsVad {
+	private:
+		/** Path to the underlying onnx model being used */	  
+		static constexpr const char* MODEL_PATH = "model/silero_vad.onnx";
+		/** The value used to convert our 16 bit signed audio data to float values silero vad can understand */
+		static constexpr const float NORMALIZATION_FACTOR = INT16_MAX + 1.0f;
 
-// 	std::string wav_path = argv[1];
-// 	float sample_rate = std::stof(argv[2]);
-// 	float threshold = std::stof(argv[3]);
-
-// 	if (sample_rate != 16000 && sample_rate != 8000) {
-// 		std::cout<<"Unsupported sample rate (only 16000 or 8000)."<<std::endl;
-// 		exit (0);
-//         }
-
-// 	//Load Model
-// #ifdef USE_TORCH
-// 	std::string model_path = "../../src/silero_vad/data/silero_vad.jit";
-// #elif USE_ONNX
-// 	std::string model_path = "./model/silero_vad.onnx";
-// #endif
-// 	silero::VadIterator vad(model_path);
-
-//         vad.threshold=threshold;	//(Default:0.5)
-// 	vad.sample_rate=sample_rate;	//16000Hz,8000Hz. (Default:16000)
-//         vad.print_as_samples=false;	//if true, it prints time-stamp with samples. otherwise, in seconds
-// 					//(Default:false)
-
-// 	vad.SetVariables();
-
-// 	// Read wav
-// 	wav::WavReader wav_reader(wav_path);
-// 	std::vector<float> input_wav(wav_reader.num_samples());
-
-// 	for (int i = 0; i < wav_reader.num_samples(); i++)
-// 	{
-// 		input_wav[i] = static_cast<float>(*(wav_reader.data() + i));
-// 	}
-
-// 	vad.SpeechProbs(input_wav);
-
-// 	std::vector<silero::Interval> speeches = vad.GetSpeechTimestamps();
-// 	for(const auto& speech : speeches){
-// 		if(vad.print_as_samples){
-// 			std::cout<<"{'start': "<<static_cast<int>(speech.start)<<", 'end': "<<static_cast<int>(speech.end)<<"}"<<std::endl;
-// 		}
-// 		else{
-// 			std::cout<<"{'start': "<<speech.start<<", 'end': "<<speech.end<<"}"<<std::endl;
-// 		}
-// 	}
+	 	/** The object used for gathering the speech timestamps of voice activity given data */
+		silero::VadIterator vad = silero::VadIterator(MODEL_PATH);
 
 
-// 	return 0;
-// 	}
+	public:
+		/**
+		 * Constructor method which sets up the underlying vad object used to determine if speech is present
+		 * given data.
+		 * @param sample_rate the sample rate the vad model should use (1600Hz OR 8000Hz)
+		 * @param threshold the threshold for the underlying vad model
+		 */
+		RcsVad(float sample_rate=16000, float threshold=0.5)
+		{
+			// More set up logic for vad after initalization
+			vad.threshold = threshold;	 
+			vad.sample_rate = sample_rate; 
+			vad.print_as_samples = false;
+			vad.SetVariables();
+		}
 
+		/**
+		 * Method used to return a true or false value if the given output from a rtl_fm process (16 bit signed ints)
+		 * is captured audio that has voice activity in it or not.
+		 * @param data the array of signed 16 bit signed ints
+		 * @param data_len the length of the data array
+		 * @return a true or false value if voice activity is detected in the captured output
+		 */
+		bool has_voice_activity(int16_t *data, int data_len){
+			// Convert the given signed 16 bit radio data to something our vad model can process
+			std::vector<float> input_data;
+			input_data.reserve(data_len);
+			for (int i = 0; i < data_len; i++){
+				input_data.push_back(data[i] / NORMALIZATION_FACTOR);
+			}
+
+			// Get the speech timestamps if there are any present
+			vad.SpeechProbs(input_data);
+			std::vector<silero::Interval> speeches = vad.GetSpeechTimestamps();
+
+			// Was there any speech detected?
+			return speeches.size() > 0;
+		}
+};
+
+
+// =====================================
+// Pure C API function implementation
+// =====================================
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void *rcs_vad_create(float sample_rate, float threshold)
+{
+	// Instantiate the vad and return a pointer to the memory address of it
+	RcsVad *vad = new RcsVad(sample_rate, threshold);
+	return (void *)vad;
+}
+
+void rcs_vad_destroy(void *rcs_vad)
+{
+	RcsVad *vad = (RcsVad *)rcs_vad;
+	delete vad;
+}
+
+bool rcs_vad_determine_voice_activity(void *rcs_vad, int16_t *data, int data_len)
+{
+	RcsVad *vad = (RcsVad *) rcs_vad;
+	return vad->has_voice_activity(data, data_len);
+}
+
+#ifdef __cplusplus
+}
+#endif

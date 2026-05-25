@@ -9,6 +9,8 @@
 #ifndef RCS_RADIO_H
 #define RCS_RADIO_H
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -22,8 +24,7 @@ void radio_device_check();
 
 
 /**
- * Collects ~40 MiB worth of data from the radio device on the given frequency.
- * Data collected will be stored in a file named "raw_radio_data.iq"
+ * Scans on the given frequency for chatter and reports if any is found.
  * @param freq the current frequency that should be scanned for voice detection
  * @param timeout how long this frequency should be scanned for
  * @param demod_mode the enum value for the demod mode as seen in program_input_s
