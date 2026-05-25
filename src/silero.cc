@@ -8,6 +8,7 @@
  */
 #include "silero.hpp"
 
+
 namespace silero
 {
 	VadIterator::VadIterator(const std::string &model_path,
@@ -48,7 +49,7 @@ namespace silero
 
 	float VadIterator::predict(const std::vector<float> &data_chunk)
 	{
-		// _context와 현재 청크를 결합하여 입력 데이터 구성
+		// Combine _context and current chunk to construct input data
 		std::vector<float> new_data(effective_window_size, 0.0f);
 		std::copy(_context.begin(), _context.end(), new_data.begin());
 		std::copy(data_chunk.begin(), data_chunk.end(), new_data.begin() + context_samples);
@@ -70,13 +71,13 @@ namespace silero
 			input_node_names.data(), ort_inputs.data(), ort_inputs.size(),
 			output_node_names.data(), output_node_names.size());
 
-		float speech_prob = ort_outputs[0].GetTensorMutableData<float>()[0]; // ONNX 출력: 첫 번째 값이 음성 확률
+		float speech_prob = ort_outputs[0].GetTensorMutableData<float>()[0]; // ONNX output: first value is the speech probability
 
-		float *stateN = ort_outputs[1].GetTensorMutableData<float>(); // 두 번째 출력값: 상태 업데이트
+		float *stateN = ort_outputs[1].GetTensorMutableData<float>(); // Second output value: state update
 		std::memcpy(_state.data(), stateN, size_state * sizeof(float));
 
 		std::copy(new_data.end() - context_samples, new_data.end(), _context.begin());
-		// _context 업데이트: new_data의 마지막 context_samples 유지
+		// Update _context: retain the last context_samples of new_data
 
 		return speech_prob;
 	}
@@ -136,7 +137,7 @@ namespace silero
 		context_samples = window_size_samples / 8;
 		_context.assign(context_samples, 0.0f);
 
-		effective_window_size = window_size_samples + context_samples; // 예: 512 + 64 = 576 samples
+		effective_window_size = window_size_samples + context_samples; // e.g. 512 + 64 = 576 samples
 		input_node_dims[0] = 1;
 		input_node_dims[1] = effective_window_size;
 		_state.resize(size_state);
