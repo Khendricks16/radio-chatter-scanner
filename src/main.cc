@@ -33,10 +33,16 @@ int main(int argc, char const **argv)
 {
     // Open up db connection instance for program wide use
     sqlite3 *rcs_db = NULL;
-    rcs_open_db(&rcs_db);
+    // rcs_open_db(&rcs_db);
 
     // Parse out the input that was given to the program
     program_input_s *input = parse_program_input(argc, argv);
+
+    // Was the users input invalid?
+    if (input == NULL){
+        fprintf(stderr, "Invalid usage: See 'rcs help'\n");
+        exit(INVALID_PROGRAM_USAGE);
+    }
     
     // Based on which command should be ran, run it
     switch(input->subcommand){
@@ -46,7 +52,7 @@ int main(int argc, char const **argv)
         case program_input_struct::scan:
             radio_device_check();
 
-            if (input->freq_start == input->freq_end){
+          if (input->freq_start == input->freq_end){
                 radio_scan_single_freq(input->freq_start, input->hold_time, input->demod_mode);
             } else {
                 // scan_range_linear(input->freq_start, input->freq_end, input->hold_time, input->cycles);
@@ -59,7 +65,7 @@ int main(int argc, char const **argv)
     free(input);
 
     // Make sure that the program db is closed
-    rcs_close_db(&rcs_db);
+    // rcs_close_db(&rcs_db);
 
     // Program is ready to successfully terminate
     return EXIT_SUCCESS;

@@ -16,6 +16,9 @@
 #define SUPPORTED_DEMOD_MODES_AMT 3
 /** How many total subcommands does this program support? */
 #define SUPPORTED_SUBCOMMANDS_AMT 2
+/** The exit code for when invalid input is provided to the program */
+#define INVALID_PROGRAM_USAGE 2
+
 
 
 #ifdef __cplusplus
@@ -43,8 +46,8 @@ typedef struct program_input_struct program_input_s;
 
 /**
  * Function that will take in argc and argv for the program and parse out and fill up possible input
- * for the program. If any of the given flags or subcommands are invalid, the program will terminate with
- * a specific exit code.
+ * for the program. If any of the given flags or subcommands are invalid, a null pointer will be returned.
+ * 
  * @param argc int for how many command line arguments were given
  * @param argv array of strings, each one being one of the command line given arguments
  * @return a filled program input struct with the users data
