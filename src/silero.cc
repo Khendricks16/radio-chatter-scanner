@@ -6,7 +6,7 @@
  * Description : silero 6.2 system for onnx-runtime(c++)
  * Version     : 1.3
  */
-#include "silero.h"
+#include "silero.hpp"
 
 namespace silero
 {
@@ -44,7 +44,6 @@ namespace silero
 		session_options.SetInterOpNumThreads(inter_threads);
 		session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
 		session = std::make_shared<Ort::Session>(env, model_path.c_str(), session_options);
-		std::cout << "Silero onnx-Model loaded successfully" << std::endl;
 	}
 
 	float VadIterator::predict(const std::vector<float> &data_chunk)
@@ -191,7 +190,6 @@ namespace silero
 
 		if (triggered)
 		{
-			std::cout << "Finalizing active speech segment at stream end." << std::endl;
 			Interval &segment = speeches.back();
 			segment.end = total_sample_size;
 			triggered = false;
