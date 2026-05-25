@@ -5,14 +5,12 @@
  * Implementation file for db component that contains all logic relating to handling db operations.
  */
 
+#include "db.h"
+
 #include <sys/stat.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <stdio.h>
-#include <stdbool.h>
-
-#include "db.h"
 
 
 /** Exit code for database related errors, which put the program in a state where it cannot continue */

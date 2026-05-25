@@ -11,6 +11,7 @@
 #define RCS_INPUT_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /** How many total demodulation modes does this program support? */
 #define SUPPORTED_DEMOD_MODES_AMT 3
@@ -18,7 +19,6 @@
 #define SUPPORTED_SUBCOMMANDS_AMT 2
 /** The exit code for when invalid input is provided to the program */
 #define INVALID_PROGRAM_USAGE 2
-
 
 
 #ifdef __cplusplus
@@ -55,15 +55,16 @@ typedef struct program_input_struct program_input_s;
 program_input_s * parse_program_input(int argc, char const *argv[]);
 
 
+
 /**
  * Prints to stdout a quick help reference for how to use the program with its subcommands and options
  * available to the user.
  */
 void display_help();
 
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif
-

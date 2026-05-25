@@ -1,5 +1,5 @@
 /**
- * @file db.c
+ * @file db.h
  * @author Keith Hendricks
  *
  * Header file for db component that contains all operations relating to interacting with the program db.
@@ -8,16 +8,17 @@
 #ifndef RCS_DB_H
 #define RCS_DB_H
 
-#include <sqlite3.h>
-#include <stdbool.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include <sqlite3.h>
+#include <stdbool.h>
+#include <stdint.h>
+
 
 /**
- * Function which opens up the db holding the radio chatter data for the program. If the .db file of the name 
+ * Routine which opens up the db holding the radio chatter data for the program. If the .db file of the name 
  * "rcs_captured.db" does not exist, then one will be created and have the desired schema added to it. If any error occurs
  * where the db can not be opened, then the program will exit fatally.
  * @param rcs_db the program db holding radio data
@@ -25,12 +26,14 @@ extern "C" {
 void rcs_open_db(sqlite3 **rcs_db);
 
 
+
 /**
- * Function which opens will close the sqlite db used by the program. If the db fails to close then the program
+ * Routine which will close the sqlite db used by the program. If the db fails to close then the program
  * will exit fatally.
  * @param rcs_db the program db holding radio data
  */
 void rcs_close_db(sqlite3 **rcs_db);
+
 
 
 /**

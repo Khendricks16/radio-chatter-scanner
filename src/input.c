@@ -4,26 +4,18 @@
  *
  * Implementation file that handles parsing and error checking on users inputs to the program.
  */
+#include "getopt/getopt.h"
+#include "input.h"
 
 #include <stdio.h>
-#include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 
-
-#include "getopt/getopt.h"
-#include "input.h"
-
-
 /** argc should at least be equal to this in order for it to be a valid 'scan' subcommand */
 #define MIN_CMD_ARGS_RCS_SCAN 4
-
 /** The length of the largest demodulation mode that is supported 'wbfm' */
 #define LARGEST_DEMOD_MODE_LEN 4
-
-
-
 
 
 /**
@@ -79,6 +71,7 @@ static void free_modified_argv(int argc, char **margv)
 }
 
 
+
 /**
  * Function used to check if the 'rcs help' command was provided or other conditions where this operation should
  * be ran.
@@ -113,6 +106,7 @@ static bool check_help_command(int argc, char const *argv[], program_input_s *in
 }
 
 
+
 void display_help()
 {
     printf("%s\n", 
@@ -127,6 +121,7 @@ void display_help()
             "       -c --cycles (integer)\n"
     );
 }
+
 
 
 /**
@@ -166,6 +161,7 @@ static bool apply_frequency_suffix(float *val, char **end_ptr)
     // All done
     return true;
 }
+
 
 
 /**
@@ -239,6 +235,7 @@ static bool sanitize_frequency_range(const char *freq_range_str, program_input_s
 }
 
 
+
 /**
  * Function used to check if the 'rcs scan' command was provided and parse out/validate data provided for this
  * operation.
@@ -278,8 +275,6 @@ static bool check_scan_command(int argc, char const *argv[], program_input_s *in
     if (!range_result){
         return false;
     }
-    
-
 
     // Move on to validating the demodulation mode
     curr_arg_pos++;
@@ -370,4 +365,3 @@ program_input_s * parse_program_input(int argc, char const *argv[])
     return NULL;
 
 }
-

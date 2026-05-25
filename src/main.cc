@@ -4,22 +4,14 @@
  *
  * The main starting point for the program.
  */
-#include <sqlite3.h>
-#include <rtl-sdr.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "db.h"
 #include "radio.h"
 #include "input.h"
 
-
-/**
-static void report_found_chatter(uint32_t freq)
-{
-    printf("Found chatter on frequency: %d", freq);
-}
-*/
+#include <sqlite3.h>
+#include <rtl-sdr.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 
 /**
@@ -70,5 +62,3 @@ int main(int argc, char const **argv)
     // Program is ready to successfully terminate
     return EXIT_SUCCESS;
 }
-
-
