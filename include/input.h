@@ -11,11 +11,20 @@
 #define RCS_INPUT_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /** How many total demodulation modes does this program support? */
 #define SUPPORTED_DEMOD_MODES_AMT 3
 /** How many total subcommands does this program support? */
 #define SUPPORTED_SUBCOMMANDS_AMT 2
+/** The exit code for when invalid input is provided to the program */
+#define INVALID_PROGRAM_USAGE 2
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 /** struct which will hold possible input values given to the program */
 struct program_input_struct {
@@ -37,13 +46,14 @@ typedef struct program_input_struct program_input_s;
 
 /**
  * Function that will take in argc and argv for the program and parse out and fill up possible input
- * for the program. If any of the given flags or subcommands are invalid, the program will terminate with
- * a specific exit code.
+ * for the program. If any of the given flags or subcommands are invalid, a null pointer will be returned.
+ * 
  * @param argc int for how many command line arguments were given
  * @param argv array of strings, each one being one of the command line given arguments
  * @return a filled program input struct with the users data
  */
 program_input_s * parse_program_input(int argc, char const *argv[]);
+
 
 
 /**
@@ -53,5 +63,8 @@ program_input_s * parse_program_input(int argc, char const *argv[]);
 void display_help();
 
 
+#ifdef __cplusplus
+}
 #endif
 
+#endif
