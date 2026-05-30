@@ -1,3 +1,6 @@
+# =======================================
+# Start of GitHub C .gitignore template
+# =======================================
 # Prerequisites
 *.d
 
@@ -58,12 +61,25 @@ dkms.conf
 #  End of .gitignore template
 # =============================
 
+# CMake related items
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+CMakeUserPresets.json
+
 # Sqlite DB files
 *.db
 
 # Personal Files
 notes/
-tests/local_captured_audio/
+test/local_captured_audio/
 
 # Build contents
 build/
