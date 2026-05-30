@@ -114,7 +114,7 @@ void display_help()
             "The following rcs commands and arguments are:\n"
             "   help        Show this description on using rcs\n\n"
             "   scan [range] [mode]    Actively scan a range of frequencies with voice detection\n"
-            "       ex. rcs scan 101.5M-109.5M (in hz)\n"
+            "       ex. rcs scan 101.5M-109.5M wbfm\n"
             "       -v, --verbose\n"
             "       -t, --timeout (in sec.)\n"
             "       -h --hold-time (in sec.)\n"
